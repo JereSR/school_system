@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Solicitud de edición del alumno</h2>
+
+<form method="POST">
+
+    <label>Motivo:</label>
+    <textarea name="motivo" class="form-control" required></textarea>
+
+    <hr>
+
+    <h3>Datos del alumno</h3>
+
+    <label>Nombre:</label>
+    <input name="nombre" class="form-control" value="{{ alumno.nombre }}" required>
+
+    <label>Apellido:</label>
+    <input name="apellido" class="form-control" value="{{ alumno.apellido }}" required>
+
+    <label>Domicilio:</label>
+    <input name="domicilio" class="form-control" value="{{ alumno.domicilio }}">
+
+    <label>Email:</label>
+    <input name="email" class="form-control" value="{{ alumno.email }}" required>
+
+    <label>Edad:</label>
+    <input type="number" name="edad" class="form-control" value="{{ alumno.edad }}">
+
+    <label>Teléfono:</label>
+    <input name="telefono" class="form-control" value="{{ alumno.telefono }}">
+
+    <label>Grado:</label>
+    <input name="grado" class="form-control" value="{{ alumno.grado }}">
+
+    <label>División:</label>
+    <input name="division" class="form-control" value="{{ alumno.division }}">
+
+    <button class="btn btn-primary mt-3" type="submit">Enviar solicitud</button>
+</form>
+
+{% endblock %}

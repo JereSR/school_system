@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Importar Alumnos{% endblock %}
+
+{% block content %}
+<h2>Importar Alumnos desde Excel/CSV</h2>
+<p>El archivo debe contener estas columnas: <strong>nombre, apellido, email, edad, domicilio, telefono, grado, division, especialidad</strong></p>
+
+<form method="POST" enctype="multipart/form-data" class="card p-3 mt-3">
+    <div class="mb-3">
+        <label>Seleccionar archivo</label>
+        <input type="file" name="archivo" class="form-control" accept=".xlsx,.csv" required>
+    </div>
+    <button class="btn btn-success">Importar</button>
+</form>
+{% endblock %}

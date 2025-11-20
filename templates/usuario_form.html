@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Editar Usuario' if usuario else 'Nuevo Usuario' }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ 'Editar Usuario' if usuario else 'Nuevo Usuario' }}</h2>
+
+    <form method="POST" class="card p-3 mt-3">
+        <div class="mb-3">
+            <label style="color: black;">Nombre</label>
+            <input type="text" name="nombre" class="form-control" value="{{ usuario.nombre if usuario else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label style="color: black;">Apellido</label>
+            <input type="text" name="apellido" class="form-control" value="{{ usuario.apellido if usuario else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label style="color: black;">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ usuario.email if usuario else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label style="color: black;">Contraseña (Dejar en blanco para no cambiar)</label>
+            <input type="password" name="password" class="form-control" placeholder="{{ 'Dejar en blanco para no cambiar' if usuario else '' }}" {% if not usuario %}required{% endif %}>
+        </div>
+
+        <div class="mb-3">
+            <label style="color: black;">Rango (solo números)</label>
+            <input type="number" name="rango" class="form-control" value="{{ usuario.rango if usuario else '' }}" required>
+            <small class="text-muted">
+                1=Profesor, 2=Preceptor, 3=Vice, 4=Secretaría, 5=Director
+            </small>
+        </div>
+
+        <button class="btn btn-success">Guardar</button>
+    </form>
+</div>
+{% endblock %}

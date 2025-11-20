@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Lista de Alumnos</h2>
+        {% if rango >= 2 %}
+        <a href="{{ url_for('main.nuevo_alumno') }}" class="btn btn-success shadow-sm">
+             Nuevo Alumno
+        </a>
+        <a href="{{ url_for('main.importar_alumnos') }}" class="btn btn-primary mb-3"> Importar desde Excel</a>
+        {% endif %}
+    </div>
+
+    <!-- 🔍 Barra de búsqueda -->
+    <div class="card p-3 mb-3 shadow-sm border-0">
+        <div class="row g-2">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, apellido o especialidad...">
+            </div>
+            <div class="col-md-3">
+                <select id="filterGrado" class="form-select">
+                    <option value="">Todos los grados</option>
+                    <option value="1">1°</option>
+                    <option value="2">2°</option>
+                    <option value="3">3°</option>
+                    <option value="4">4°</option>
+                    <option value="5">5°</option>
+                    <option value="6">6°</option>
+                    <option value="7">7°</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    {% if alumnos %}
+    <div class="card p-3 shadow-sm border-0" style="overflow-x: auto;">
+        <table class="table table-hover table-bordered text-center align-middle" id="tablaAlumnos">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Domicilio</th>
+                    <th>Email</th>
+                    <th>Edad</th>
+                    <th>Teléfono</th>
+                    <th>Grado</th>
+                    <th>División</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in alumnos %}
+                <tr>
+                    <td>{{ alumno.id }}</td>
+                    <td>{{ alumno.nombre }}</td>
+                    <td>{{ alumno.apellido }}</td>
+                    <td>{{ alumno.domicilio or '—' }}</td>
+                    <td>{{ alumno.email or '—' }}</td>
+                    <td>{{ alumno.edad or '—' }}</td>
+                    <td>{{ alumno.telefono or '—' }}</td>
+                    <td>{{ alumno.grado }}</td>
+                    <td>{{ alumno.division }}</td>
+
+                    <td>
+                        {% if rango >= 2 %}
+                            <!-- Preceptor, Vice, Secretaría, Director -->
+                            <a href="{{ url_for('main.editar_alumno', id=alumno.id) }}" class="btn btn-outline-warning btn-sm me-1">
+                                editar
+                            </a>
+                            <a href="{{ url_for('main.borrar_alumno', id=alumno.id) }}" 
+                               class="btn btn-outline-danger btn-sm"
+                               onclick="return confirm('¿Seguro que querés borrar este alumno?');">
+                                borrar
+                            </a>
+                        {% endif %}
+
+                        {% if rango == 1 %}
+                            <!-- PROFESOR: enviar solicitudes -->
+                            <a href="{{ url_for('main.solicitar_edicion', alumno_id=alumno.id) }}"
+                               class="btn btn-warning btn-sm me-1">
+                               Solicitar modificación
+                            </a>
+
+                            <a href="{{ url_for('main.crear_solicitud', alumno_id=alumno.id) }}"
+                               class="btn btn-danger btn-sm">
+                               Solicitar eliminación
+                            </a>
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-center text-muted mt-4">No hay alumnos registrados</p>
+    {% endif %}
+</div>
+
+<!-- 🧠 Script de búsqueda y filtro -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const filterGrado = document.getElementById('filterGrado');
+    const rows = document.querySelectorAll('#tablaAlumnos tbody tr');
+
+    function filtrar() {
+        const texto = searchInput.value.toLowerCase();
+        const gradoFiltro = filterGrado.value;
+
+        rows.forEach(row => {
+            const nombre = row.cells[1].textContent.toLowerCase();
+            const apellido = row.cells[2].textContent.toLowerCase();
+            const grado = row.cells[7].textContent;
+
+            const coincideTexto = nombre.includes(texto) || apellido.includes(texto);
+            const coincideGrado = !gradoFiltro || grado.startsWith(gradoFiltro);
+
+            row.style.display = (coincideTexto && coincideGrado) ? '' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', filtrar);
+    filterGrado.addEventListener('change', filtrar);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Panel Principal{% endblock %}
+{% block content %}
+
+<div class="text-center mt-2">
+  <h2 class="fw-bold text-success">¡Bienvenido, {{ session.get('nombre', 'Usuario') }}!</h2>
+  <p class="text-muted mt-2">
+    Bienvenido a la <strong>Base de Datos Escolar</strong>, un sistema desarrollado como proyecto educativo.
+    En caso de <em>problemas, sugerencias o dudas</em>, si desea dar <strong>Feedback</strong> del menú lateral.
+  </p>
+</div>
+
+<div class="row mt-4 justify-content-center">
+  <div class="col-md-8">
+    <div class="card bg-dark text-light shadow-lg border-success border-opacity-50">
+      <div class="card-body">
+        <h5 class="card-title text-success">👤 Información del usuario</h5>
+        <p><strong>Nombre:</strong> {{ session.get('nombre', 'Invitado') }}</p>
+        <p><strong>Email:</strong> {{ session.get('correo', 'No disponible') }}</p>
+        <p><strong>Rango:</strong> Nivel {{ session.get('rango', 0) }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4 text-center justify-content-center">
+  <div class="col-md-8">
+    <h4 class="text-success mb-3">¿Qué deseas hacer hoy?</h4>
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+      <a href="{{ url_for('main.alumnos') }}" class="btn btn-verde">👥 Ver alumnos</a>
+      {% if session.get('rango', 0) >= 2 %}
+      <a href="{{ url_for('main.nuevo_alumno') }}" class="btn btn-verde">➕ Registrar alumno</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

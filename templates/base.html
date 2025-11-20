@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Base de Datos Escolar{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    :root {
+      --verde: #4caf50;
+      --verde-oscuro: #2e7d32;
+      --gris-oscuro: #121212;
+      --gris: #1e1e1e;
+      --blanco: #f5f5f5;
+    }
+
+    body {
+      background-color: var(--gris-oscuro);
+      color: var(--blanco);
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding-top: 70px; /* espacio para navbar fijo */
+    }
+
+    /* Header */
+    .navbar {
+      background-color: var(--gris);
+      border-bottom: 2px solid var(--verde);
+      z-index: 1030; /* aseguramos que esté arriba */
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      color: var(--verde);
+      text-decoration: none;
+    }
+
+    .navbar-brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .navbar-toggler {
+      border-color: var(--verde);
+    }
+
+    /* Offcanvas lateral */
+    .offcanvas {
+      background-color: var(--gris);
+      color: var(--blanco);
+    }
+
+    .offcanvas-header {
+      border-bottom: 1px solid var(--verde);
+    }
+
+    .offcanvas-body a {
+      color: var(--blanco);
+      text-decoration: none;
+      display: block;
+      padding: 10px 0;
+      transition: 0.2s;
+    }
+
+    .offcanvas-body a:hover {
+      color: var(--verde);
+    }
+
+    .btn-verde {
+      background-color: var(--verde);
+      border: none;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    .btn-verde:hover {
+      background-color: var(--verde-oscuro);
+    }
+
+    .container {
+      max-width: 1100px;
+    }
+
+    /* Ajustes del texto */
+    h2, p, label, th, td {
+      color: var(--blanco);
+    }
+
+    table tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+
+    .text-muted {
+      color: #bdbdbd !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <nav class="navbar navbar-dark fixed-top px-3">
+    <a class="navbar-brand" href="mailto:jeresierra0706@gmail.com">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+      Base de Datos Escolar
+    </a>
+
+    <!-- Botón de menú (hamburguesa) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral" aria-controls="menuLateral" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+  <!-- Menú lateral (offcanvas) -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral" aria-labelledby="menuLateralLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="menuLateralLabel">Menú del Usuario</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p><strong>Usuario:</strong> {{ session.get('nombre', 'Invitado') }}</p>
+      <p><strong>Email:</strong> {{ session.get('correo', 'No disponible') }}</p>
+      <hr>
+      <a href="{{ url_for('main.dashboard') }}"> Dashboard</a>
+      <a href="{{ url_for('main.alumnos') }}"> Lista de alumnos</a>
+
+      {% if session.get('rango', 0) >= 2 %}
+      <a href="{{ url_for('main.listar_solicitudes') }}"> Solicitudes</a>
+      {% endif %}
+
+      {% if session.get('rango', 0) >= 2 %}
+      <a href="{{ url_for('main.nuevo_alumno') }}"> Nuevo alumno</a>
+      {% endif %}
+      {% if session.get('rango', 0) >= 4 %}
+      <a href="{{ url_for('main.nuevo_usuario') }}"> Nuevo Usuario</a>
+      {% endif %}
+      <a href="{{ url_for('main.configuracion') }}"> Configuración</a>
+      <a href="mailto:jeresierra0706@gmail.com?subject=Feedback%20Base%20de%20Datos%20Escolar&body=Hola,%20quiero%20dar%20mi%20feedback..." class="btn btn-outline-success d-block my-2">
+        Feedback
+      </a>
+      <hr>
+      <a href="{{ url_for('main.logout') }}" class="text-danger"> Cerrar sesión</a>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

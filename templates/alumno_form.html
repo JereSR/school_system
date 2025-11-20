@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card bg-dark text-light p-4 shadow-lg">
+        <h3 class="text-center text-success mb-4">
+            {{ 'Editar Alumno' if alumno else 'Nuevo Alumno' }}
+        </h3>
+
+        <form method="POST">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" name="nombre" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.nombre if alumno else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" name="apellido" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.apellido if alumno else '' }}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Domicilio</label>
+                    <input type="text" name="domicilio" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.domicilio if alumno else '' }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.email if alumno else '' }}">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Edad</label>
+                    <input type="number" name="edad" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.edad if alumno else '' }}">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" name="telefono" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.telefono if alumno else '' }}">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Grado</label>
+                    <input type="text" name="grado" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.grado if alumno else '' }}" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">División</label>
+                    <input type="text" name="division" class="form-control bg-dark text-light border-success"
+                        value="{{ alumno.division if alumno else '' }}" required>
+                </div>
+
+                {% if alumno and alumno.grado and alumno.grado[0]|int >= 4 %}
+                <div class="col-md-8">
+                    <label class="form-label">Especialidad</label>
+                    <select name="especialidad" class="form-select bg-dark text-light border-success">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="Informática" {% if alumno.especialidad == 'Informática' %}selected{% endif %}>Informática</option>
+                        <option value="Electromecánica" {% if alumno.especialidad == 'Electromecánica' %}selected{% endif %}>Electromecánica</option>
+                    </select>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="btn btn-success px-4">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

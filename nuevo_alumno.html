@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-dark text-light shadow-lg border-success">
+        <div class="card-header bg-success text-center">
+            <h3 class="mb-0">➕ Nuevo Alumno</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('main.nuevo_alumno') }}">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="alumno_id" class="form-label text-success">ID del Alumno</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="alumno_id" id="alumno_id" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="nombre" class="form-label text-success">Nombre</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="nombre" id="nombre" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="apellido" class="form-label text-success">Apellido</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="apellido" id="apellido" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="domicilio" class="form-label text-success">Domicilio</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="domicilio" id="domicilio">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label text-success">Correo Electrónico</label>
+                        <input type="email" class="form-control bg-dark text-light border-success" name="email" id="email">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="edad" class="form-label text-success">Edad</label>
+                        <input type="number" class="form-control bg-dark text-light border-success" name="edad" id="edad">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="telefono" class="form-label text-success">Teléfono</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="telefono" id="telefono">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="grado" class="form-label text-success">Grado</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="grado" id="grado">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="division" class="form-label text-success">División</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="division" id="division">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="especialidad" class="form-label text-success">Especialidad</label>
+                        <input type="text" class="form-control bg-dark text-light border-success" name="especialidad" id="especialidad">
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn btn-success px-4">Guardar Alumno</button>
+                    <a href="{{ url_for('main.ver_alumnos') }}" class="btn btn-outline-light ms-2">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

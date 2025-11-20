@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Configuración{% endblock %}
+
+{% block content %}
+<h2>Configuración</h2>
+
+{% if session.get('rango',0) >=4 %}
+<a href="{{ url_for('main.nuevo_usuario') }}" class="btn btn-success mb-3"> Nuevo Usuario</a>
+{% endif %}
+
+{% if usuarios %}
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rango</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.rango }}</td>
+            <td>
+                <a href="{{ url_for('main.editar_usuario', id=usuario.id) }}" class="btn btn-sm btn-primary"> Editar</a>
+                <a href="{{ url_for('main.borrar_usuario', id=usuario.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que querés borrar este usuario?')"> Borrar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No hay usuarios disponibles.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
+    }
+
+    .card-login {
+        width: 380px;
+        background: #1c1c1c;
+        border: 1px solid #2e7d32;
+        border-radius: 14px;
+        box-shadow: 0 0 25px rgba(0, 255, 128, 0.08);
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .card-login:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 35px rgba(0, 255, 128, 0.15);
+    }
+
+    .form-control {
+        background-color: #111;
+        border: 1px solid #388e3c;
+        color: #f1f1f1;
+    }
+
+    .form-control:focus {
+        background-color: #1b1b1b;
+        color: #fff;
+        border-color: #4caf50;
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+    }
+
+    .btn-success {
+        background-color: #43a047;
+        border: none;
+        font-weight: bold;
+    }
+
+    .btn-success:hover {
+        background-color: #388e3c;
+        box-shadow: 0 0 10px rgba(56, 142, 60, 0.4);
+    }
+
+    .alert-danger {
+        background-color: rgba(244, 67, 54, 0.15);
+        border: 1px solid #e57373;
+        color: #ef9a9a;
+    }
+
+    small a {
+        color: #81c784 !important;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="card-login text-light">
+        <div class="text-center mb-3">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"
+                 class="rounded-circle mb-2" width="80" height="80">
+            <h3 class="text-success fw-bold mb-0">Base de Datos Escolar</h3>
+            <p class="text-muted">Iniciá sesión para continuar</p>
+        </div>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label text-success">Correo electrónico</label>
+                <input type="email" name="email" class="form-control" placeholder="ejemplo@escuela.edu" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-success">Contraseña</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button class="btn btn-success w-100">Ingresar</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-danger mt-3 mb-0 text-center p-2">
+              {{ messages[0] }}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="text-center mt-4">
+            <small class="text-muted">
+                Proyecto escolar desarrollado por 
+                <a href="mailto:jeresierra0706@gmail.com" class="text-decoration-none">Jere Sierra y Santino Lobo</a>
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Solicitar acción sobre {{ alumno.nombre }} {{ alumno.apellido }}</h3>
+
+  <form method="POST" class="card p-3">
+    <div class="mb-3">
+      <label>Tipo</label>
+      <select name="tipo" class="form-control" required>
+        <option value="modificar">Modificar</option>
+        <option value="borrar">Borrar</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>Motivo</label>
+      <textarea name="motivo" class="form-control" rows="4" required></textarea>
+    </div>
+    <button class="btn btn-primary">Enviar solicitud</button>
+    <a href="{{ url_for('main.alumnos') }}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
