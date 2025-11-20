@@ -1,18 +1,21 @@
 from flask import Flask
 from flask_migrate import Migrate
 from config import Config
-from models import db, Usuario
-from routes import main_routes
+from flask_sqlalchemy import SQLAlchemy
 
 # Crear la app
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Inicializar la base de datos
-db.init_app(app)
+# Inicializar SQLAlchemy usando la app aquí
+db = SQLAlchemy(app)
 
 # Inicializar Migraciones (después de crear app y db)
 migrate = Migrate(app, db)
+
+# Importar modelos y rutas después de crear db para evitar import circular
+from models import Usuario
+from routes import main_routes
 
 # Registrar rutas
 app.register_blueprint(main_routes, url_prefix='/')
